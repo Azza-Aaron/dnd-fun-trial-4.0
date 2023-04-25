@@ -8,6 +8,6 @@ const userCharRouter = require ('./../controllers/character/characterHandler')
 router.use('/info', infoRouter)
 router.use('/user', userRouter)
 router.use(authGuard)
-router.use('user/character', userCharRouter)
+router.use('/user/character', userCharRouter)
 
 module.exports = router

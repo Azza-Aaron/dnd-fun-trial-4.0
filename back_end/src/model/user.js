@@ -1,8 +1,15 @@
 
-const getUser = (email) => {
+const getUser = (identifier) => {
   return {
-    text: 'SELECT * from "user" WHERE email = $1',
-    values: email
+    text: 'SELECT * from public.user WHERE email = $1::text',
+    values: identifier
+  }
+}
+
+const getUserFromId = (id) => {
+  return {
+    text: 'SELECT * from public.user WHERE id = $1::integer',
+    values: id
   }
 }
 
@@ -17,5 +24,6 @@ const insertUser = (user) => {
 
 module.exports = {
   getUser,
+  getUserFromId,
   insertUser
 }

@@ -28,9 +28,11 @@ const userNotes = `
 CREATE TABLE IF NOT EXISTS "user_notes_for_dm"
 (
     id SERIAL PRIMARY KEY,
+    header TEXT,
     note TEXT,
     character_name TEXT,
     character_pronounciation TEXT,
+    type TEXT,
     player_name TEXT,
     user_id INT,
     CONSTRAINT fk_user
@@ -622,6 +624,55 @@ CREATE TABLE IF NOT EXISTS beast_notes
             REFERENCES "user"(id)
 )`
 
+const userImages = `
+CREATE TABLE IF NOT EXISTS user_images
+(
+    image TEXT,
+    type TEXT,
+    character_id INT,
+    user_id INT,
+    CONSTRAINT fk_character
+        FOREIGN KEY (character_id)
+            REFERENCES "character"(id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+            REFERENCES "user"(id)
+)`
+
+const playerNotes = `
+CREATE TABLE IF NOT EXISTS player_general_notes
+(
+    header TEXT,
+    body TEXT,
+    type TEXT,
+    character_id INT,
+    user_id INT,
+    CONSTRAINT fk_character
+        FOREIGN KEY (character_id)
+            REFERENCES "character"(id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+            REFERENCES "user"(id)
+)`
+
+const playerJournal = `
+CREATE TABLE IF NOT EXISTS player_character_journal
+(
+    header TEXT,
+    body TEXT,
+    date VARCHAR,
+    character_id INT,
+    user_id INT,
+    CONSTRAINT fk_character
+        FOREIGN KEY (character_id)
+            REFERENCES "character"(id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+            REFERENCES "user"(id)
+)`
+
+
+
 
 const queries = [
   storyBoard,
@@ -649,7 +700,10 @@ const queries = [
   clothing,
   characterLightSources,
   itemOther,
-  beastNotes
+  beastNotes,
+  userImages,
+  playerNotes,
+  playerJournal
 ]
 
 const createTables = async (client) => {

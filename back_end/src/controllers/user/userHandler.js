@@ -27,7 +27,7 @@ userRouter.post('/create', validateSchema(userSchema), async (req,res) => {
 userRouter.post('/login', validateSchema(loginSchema), async (req,res) => {
   const user = await login(req, req.body)
   if(user){
-    res.json({msg:'Welcome ', name:user.username, id:user.id})
+    res.json({msg:'Welcome ', name:user.name, id:user.id})
     res.status(200)
     return
   }

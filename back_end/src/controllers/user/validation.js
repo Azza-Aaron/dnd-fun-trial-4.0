@@ -12,6 +12,7 @@ const loginSchema = yup.object({
 });
 
 const setSession = async (req, user) => {
+  console.log('user ', user)
   req.session.user = {
     name: user.username,
     id: user.id,
