@@ -1,3 +1,5 @@
+const {selectOne} = require("./")
+const {insertAll} = require("./index");
 
 const getUser = (identifier) => {
   return {
@@ -13,14 +15,6 @@ const getUserFromId = (id) => {
   }
 }
 
-const insertUser = (user) => {
-  return {
-    text: `INSERT INTO public.user (username, email, password)
-           VALUES ($1, $2, $3)
-           RETURNING id`,
-    values: user
-  };
-}
 
 module.exports = {
   getUser,

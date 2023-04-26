@@ -1,10 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const app = express();
-const {pgSes} = require('./dataBase');
 const session = require("express-session");
-const router = require('./router/router.js')
 const randomString = require('randomstring')
+const {pgSes} = require('./dataBase');
+const router = require('./router/router.js')
+
+const app = express();
 
 const secret = process.env.NODE_ENV === 'dev' ? 'somesecret' : randomString.generate({
   length: 14,

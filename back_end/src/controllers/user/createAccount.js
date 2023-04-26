@@ -11,8 +11,8 @@ const testEmail = async (email) => {
 const createUser = async (req, user) => {
   try {
     const hashedPassword = await saltHash(user.password)
-    const id = await client.query(insertUser([user.username, user.email, hashedPassword]))
-    const newUser = {name:user.username, id: id.rows[0].id}
+    const id = await insertUser({...user, password: hashedPassword});
+    const newUser = {name:user.username, id: id.id}
     await setSession(req, newUser)
     return newUser
   } catch (e) {
