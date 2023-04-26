@@ -3,13 +3,12 @@ const userRouter = express.Router();
 const {authGuard} = require("../../middleware/verification.js");
 const {validateSchema} = require("../../middleware/schemaValidation")
 const {userSchema, loginSchema} = require("./validation");
-const {testEmail, createUser} = require("./createAccount");
+const {doesEmailExist, createUser} = require("./createAccount");
 const {login} = require("./login");
 
 
 userRouter.post('/create', validateSchema(userSchema), async (req,res) => {
-  const exist = await testEmail(req.body.email)
-  if(exist){
+  if(await doesEmailExist(req.body)){
     res.json({msg: "User already exists, contact admin."})
     res.status(401)
     return
@@ -25,6 +24,7 @@ userRouter.post('/create', validateSchema(userSchema), async (req,res) => {
 })
 
 userRouter.post('/login', validateSchema(loginSchema), async (req,res) => {
+  console.log(req.body)
   const user = await login(req, req.body)
   if(user){
     res.json({msg:'Welcome ', name:user.name, id:user.id})

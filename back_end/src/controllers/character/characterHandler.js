@@ -4,7 +4,19 @@ const {charSchema, updateCharSchema, deleteCharSchema} = require("./validation")
 const {createChar} = require("./createCharacter");
 const {updateChar} = require("./updateCharacter");
 const {deleteChar} = require("./deleteCharacter");
+const {getAllChars} = require("./getAllCharacters");
 const userCharRouter = express.Router();
+
+userCharRouter.get('/all', async (req,res) => {
+    const allChars = await getAllChars(req)
+    if (allChars){
+        res.json({msg: 'chars sent', allChars})
+        res.status(200)
+        return
+    }
+    res.json({msg: 'no characters found'})
+    res.status(401)
+})
 
 userCharRouter.post('/new/character', validateSchema(charSchema), async (req,res) => {
     const newChar = await createChar(req.body, req)

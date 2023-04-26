@@ -1,17 +1,15 @@
 const bcrypt = require('bcrypt')
 const {client} = require("../../dataBase");
-const {getUserFromId} = require("../../model/user");
+const {getUser} = require("../../model/user");
+const {deleteRow} = require("../../model/")
 const {deleteCharacter} = require("../../model/character");
 
 const deleteChar = async (info, req) => {
-  console.log('session id ', req.session.user.id)
-  const dbUser = await client.query(getUserFromId([req.session.user.id]))
-  console.log('dbUser ', dbUser)
-  const verified = await bcrypt.compare(info.password, dbUser.rows[0].password);
+  const thisUserId = req.session.user.id
+  const dbUser = await getUser({id: thisUserId})
+  const verified = await bcrypt.compare(info.password, dbUser.password);
   if(verified){
-    console.log('verified', info)
-    const deleted = await client.query(deleteCharacter([req.session.user.id, info.charId]))
-    console.log(deleted)
+    const deleted = await deleteRow({id: info.id }, "character", thisUserId)
     if(deleted){
       return true
     }

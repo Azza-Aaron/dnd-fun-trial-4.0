@@ -1,11 +1,12 @@
-const {client} = require ('../../dataBase')
-const {getUser, insertUser} = require('../../model/user.js')
+const {insertUser} = require('../../model/user.js')
 const {saltHash} = require('../../utils/bcrypt/hashPassword.js')
 const {setSession} = require('./validation')
+const {selectOne} = require('../../model/')
 
-const testEmail = async (email) => {
-  const test = await client.query(getUser([email]))
-  return !!test.rowCount;
+const doesEmailExist = async (email) => {
+  console.log('checking email.. ', email)
+  const emailExists = await selectOne({email: email.email}, 'user')
+  return !!emailExists
 }
 
 const createUser = async (req, user) => {
@@ -22,6 +23,6 @@ const createUser = async (req, user) => {
 }
 
 module.exports = {
-  testEmail,
+  doesEmailExist,
   createUser
 }

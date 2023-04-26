@@ -9,7 +9,8 @@ const userSchema = yup.object({
 const loginSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().required()
-});
+}).required().noUnknown(true);
+
 
 const setSession = async (req, user) => {
   console.log('user ', user)

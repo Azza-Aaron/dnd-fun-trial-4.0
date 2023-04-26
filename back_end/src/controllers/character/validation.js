@@ -2,7 +2,7 @@ const yup = require("yup");
 
 const charSchema = yup.object({
   playerName: yup.string().required(),
-  charName: yup.string().required(),
+  characterName: yup.string().required(),
   alignment: yup.string().required(),
   race: yup.string().required(),
   age: yup.string(),
@@ -20,12 +20,12 @@ const charSchema = yup.object({
   flaws: yup.string().required(),
   alliesOrganisations: yup.string(),
   backstory: yup.string(),
-  additional_information: yup.string()
-});
+  additionInformation: yup.string()
+}).required().noUnknown(true);
 
 const updateCharSchema = yup.object({
   playerName: yup.string(),
-  charName: yup.string(),
+  characterName: yup.string(),
   alignment: yup.string(),
   race: yup.string(),
   age: yup.number(),
@@ -43,14 +43,14 @@ const updateCharSchema = yup.object({
   flaws: yup.string(),
   alliesOrganisations: yup.string(),
   backstory: yup.string(),
-  additional_information: yup.string(),
+  additionInformation: yup.string(),
   charId: yup.number()
-});
+}).required().noUnknown(true);
 
 const deleteCharSchema = yup.object({
-  charId: yup.number(),
+  id: yup.number(),
   password: yup.string()
-})
+}).required().noUnknown(true);
 
 module.exports = {
   charSchema,
