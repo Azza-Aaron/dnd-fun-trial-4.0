@@ -693,6 +693,41 @@ CREATE TABLE IF NOT EXISTS player_character_journal
             REFERENCES "user"(id)
 )`
 
+const images = `
+CREATE TABLE IF NOT EXISTS images
+(
+    image TEXT,
+    type TEXT
+)`
+
+const mob = `
+CREATE TABLE IF NOT EXISTS beast_mob
+(
+    beast TEXT,
+    description TEXT,
+    health TEXT,
+    damage TEXT,
+    group_size TEXT,
+    type TEXT
+    
+)`
+
+const dmJournal = `
+CREATE TABLE IF NOT EXISTS dm_journal
+(
+    id SERIAL PRIMARY KEY,
+    date VARCHAR,
+    header TEXT,
+    body TEXT,
+    associations TEXT,
+    group_name TEXT,
+    notes TEXT,
+    user_id INT,
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+            REFERENCES "user"(id)
+
+)`
 
 
 
@@ -726,7 +761,10 @@ const queries = [
   userImages,
   playerNotes,
   playerJournal,
-  quests
+  quests,
+  images,
+  mob,
+  dmJournal
 ]
 
 const createTables = async (client) => {

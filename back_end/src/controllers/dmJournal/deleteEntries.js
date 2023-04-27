@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt')
 const {getUser} = require("../../model/user");
-const {deleteRow} = require("../../model/")
+const {deleteRow} = require("../../model");
 
-const deleteChar = async (info, req) => {
+const deleteJEntry = async (req) => {
   const thisUserId = req.session.user.id
   const dbUser = await getUser({id: thisUserId})
-  const verified = await bcrypt.compare(info.password, dbUser.password);
+  const verified = await bcrypt.compare(req.body.password, dbUser.password);
   if(verified){
-    const deleted = await deleteRow({id: info.id }, "character", thisUserId)
+    const deleted = await deleteRow({id: req.body.id }, "dm_journal", thisUserId)
     if(deleted){
       return true
     }
@@ -17,5 +17,5 @@ const deleteChar = async (info, req) => {
 }
 
 module.exports = {
-  deleteChar
+  deleteJEntry
 }
