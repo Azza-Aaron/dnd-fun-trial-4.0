@@ -6,12 +6,13 @@ const {getMob} = require("./getOne");
 const {createMob} = require("./createMob");
 const {getAllTypes} = require("./getTypes");
 const {getAllMobs} = require("../../model/beast_mob");
+const {beastCount} = require("./convert mob size");
 const mobRouter = express.Router();
 
 mobRouter.get('/all', async(req, res) => {
   const mobs = await getAllMobs()
   if(mobs){
-    res.json({msg: "mobs master ", mobs:mobs})
+    res.json({msg: "request successful", mobs:mobs})
     res.status(200)
     return
   }
@@ -23,7 +24,7 @@ mobRouter.get('/all', async(req, res) => {
 mobRouter.get('/types', async(req, res) => {
   const types = await getAllTypes()
   if(types){
-    res.json({msg: "types master ", types:types})
+    res.json({msg: "request successful", types:types})
     res.status(200)
     return
   }
@@ -34,7 +35,8 @@ mobRouter.get('/types', async(req, res) => {
 mobRouter.post('/random/type', validateSchema(mobTypeSchema), async (req,res) => {
   const mob = await getRandoMob(req.body)
   if(mob){
-    res.json({msg:'got rando mob?', mob:mob})
+    const mobOfMany = beastCount(mob)
+    res.json({msg:"request successful", mob:mobOfMany})
     res.status(200)
     return
   }
@@ -46,7 +48,9 @@ mobRouter.post('/random/type', validateSchema(mobTypeSchema), async (req,res) =>
 mobRouter.post('/get', validateSchema(mobNameSchema), async (req,res) => {
   const mob = await getMob(req.body)
   if(mob){
-    res.json({msg:'got mob by beast name?', mob:mob})
+    console.log(mob)
+    const mobOfMany = beastCount(mob)
+    res.json({msg:"request successful", mob:mobOfMany})
     res.status(200)
     return
   }
@@ -57,7 +61,7 @@ mobRouter.post('/get', validateSchema(mobNameSchema), async (req,res) => {
 mobRouter.post('/new', validateSchema(mobSchema), async (req,res) => {
   const mob = await createMob(req.body)
   if(mob){
-    res.json({msg:'got new mob?', mob:mob})
+    res.json({msg:"request successful", mob:mob})
     res.status(200)
     return
   }

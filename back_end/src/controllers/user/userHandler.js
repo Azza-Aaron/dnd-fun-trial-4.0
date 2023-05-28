@@ -45,6 +45,7 @@ userRouter.use(authGuard)
 
 userRouter.get('/logout', async (req,res) => {
   try {
+    console.log('logging out.. ')
     await req.session.destroy()
     res.json({msg:'logged out'})
     res.status(200)

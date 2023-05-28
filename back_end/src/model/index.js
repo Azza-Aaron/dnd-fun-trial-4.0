@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const {client} = require("../dataBase");
+const {camelizeKeys} = require("../utils/snakeToCamel");
 
 const getQueryFields = (toGet) => {
   let fields = []
@@ -28,12 +29,19 @@ const selectAll = async (toGet, tableName) => {
     values: values
   };
   const res = await client.query(query)
+  if(res.rows){
+    const data = JSON.stringify(camelizeKeys(res.rows))
+    return JSON.parse(data)
+  }
   return res.rows
 }
 
 const selectOne = async (toGet, tableName) => {
   const rows = await selectAll(toGet, tableName)
-  return rows[0];
+  if(rows[0] !== undefined){
+    const data = JSON.stringify(camelizeKeys(rows[0]))
+    return JSON.parse(data)
+  }
 }
 
 const insertAll = async (toGet, tableName) => {

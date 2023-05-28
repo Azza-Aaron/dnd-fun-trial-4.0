@@ -10,7 +10,7 @@ questRouter.get('/all', async (req,res) => {
   const quests = await getAllQuests(req)
   if(quests){
     console.log('quests sent', quests)
-    res.json({msg:'all quests', quests})
+    res.json({msg:"request successful", quests})
     res.status(200)
     return
   }
@@ -23,7 +23,7 @@ questRouter.post('/new', validateSchema(createQuestSchema), async (req,res) => {
   const newQuest = await createQuest(req)
   if(newQuest){
     console.log('quest created')
-    res.json({msg: 'quest created', quest: newQuest})
+    res.json({msg:"request successful", quest: newQuest})
     res.status(200)
     return
   }
@@ -35,7 +35,7 @@ questRouter.patch('/update', validateSchema(updateQuestSchema), async (req,res) 
   const updatedQuest = await updateQuest(req)
   if(updatedQuest){
     console.log('quest updated')
-    res.json({msg: 'quest updated', quest: updatedQuest})
+    res.json({msg:"request successful", quest: updatedQuest})
     res.status(200)
     return
   }
